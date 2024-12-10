@@ -1,3 +1,4 @@
+use crate::path;
 use crate::traits::Command;
 use std::fs;
 
@@ -13,14 +14,14 @@ impl Command for LsCommand {
             return format!("Error: too many arguments");
         }
 
-        let dir = match args.get(0) {
+        let dir: &str = match args.get(0) {
             Some(arg) => arg,
-            None => ".",
+            None => &path::GLOBAL_PATH.cwd as &str,
         };
 
         match fs::read_dir(dir) {
             Ok(entries) => {
-                let mut output = String::new();
+                let mut output: String = String::new();
                 for entry in entries {
                     if let Ok(entry) = entry {
                         output.push_str(&entry.file_name().to_string_lossy());

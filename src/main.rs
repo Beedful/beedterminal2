@@ -1,5 +1,6 @@
 mod traits;
 mod commands;
+mod path;
 
 use std::io::Write;
 use crate::traits::Command;
@@ -18,7 +19,7 @@ fn main() {
 
     while input.trim() != "exit" {
         input.clear();
-        print!("> ");
+        print!("{} $ ", &path::GLOBAL_PATH.cwd);
         std::io::stdout().flush().unwrap();
         std::io::stdin().read_line(&mut input).unwrap();
         let args: Vec<&str> = input.trim().split_whitespace().collect();
