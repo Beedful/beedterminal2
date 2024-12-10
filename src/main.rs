@@ -5,11 +5,16 @@ mod path;
 use std::io::Write;
 use crate::traits::Command;
 use crate::commands::system::*;
+use crate::commands::utility::*;
 
 fn main() {
-    let mut commands: Vec<Box<dyn Command>> = vec![Box::new(LsCommand)];
+    let mut commands: Vec<Box<dyn Command>> = vec![];
 
     for command in commands::system::commands() {
+        commands.push(command);
+    }
+
+    for command in commands::utility::commands() {
         commands.push(command);
     }
 
