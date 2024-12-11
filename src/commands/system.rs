@@ -1,6 +1,6 @@
 use crate::path::{self, GLOBAL_PATH};
 use crate::traits::{Command, Path};
-use std::borrow::Borrow;
+// use std::borrow::Borrow;
 use std::fs;
 
 pub fn commands() -> Vec<Box<dyn Command>> {
@@ -15,14 +15,14 @@ impl Command for LsCommand {
             return format!("Error: too many arguments");
         }
 
-        let dir: &str = match args.get(0) {
-            Some(arg) => arg,
-            None => &path::GLOBAL_PATH.read().unwrap().cwd as &str,
-        };
+        // let dir: &str = match args.get(0) {
+        //     Some(arg) => arg,
+        //     None => &path::GLOBAL_PATH.read().unwrap().cwd as &str,
+        // };
 
         let cwd: std::path::PathBuf = std::env::current_dir().unwrap();
 
-        let mut output = String::new();
+        let mut output: String = String::new();
         for entry in fs::read_dir(format!("{}", cwd.display())).unwrap() {
             let entry = entry.unwrap();
             output.push_str(&format!("{}\n", entry.file_name().to_string_lossy()));
