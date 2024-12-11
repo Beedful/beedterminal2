@@ -2,6 +2,7 @@ use crate::traits;
 use traits::Path;
 use traits::GlobalPath;
 use lazy_static::lazy_static;
+use std::sync::{RwLock, RwLockReadGuard, RwLockWriteGuard};
 
 impl GlobalPath {
     pub fn new() -> Self {
@@ -19,6 +20,6 @@ impl Path for GlobalPath {
     }
 }
 
-lazy_static! {
-    pub static ref GLOBAL_PATH: GlobalPath = GlobalPath::new();
-}
+lazy_static!(
+    pub static ref GLOBAL_PATH: RwLock<GlobalPath> = RwLock::new(GlobalPath::new());
+);

@@ -1,5 +1,6 @@
-use crate::path;
-use crate::traits::Command;
+use crate::path::{self, GLOBAL_PATH};
+use crate::traits::{Command, Path};
+use std::borrow::Borrow;
 use std::fs;
 
 pub fn commands() -> Vec<Box<dyn Command>> {
@@ -16,22 +17,18 @@ impl Command for LsCommand {
 
         let dir: &str = match args.get(0) {
             Some(arg) => arg,
-            None => &path::GLOBAL_PATH.cwd as &str,
+            None => &path::GLOBAL_PATH.read().unwrap().cwd as &str,
         };
 
-        match fs::read_dir(dir) {
-            Ok(entries) => {
-                let mut output: String = String::new();
-                for entry in entries {
-                    if let Ok(entry) = entry {
-                        output.push_str(&entry.file_name().to_string_lossy());
-                        output.push('\n');
-                    }
-                }
-                output
-            }
-            Err(e) => format!("Error: {}", e),
+        let cwd: std::path::PathBuf = std::env::current_dir().unwrap();
+
+        let mut output = String::new();
+        for entry in fs::read_dir(format!("{}", cwd.display())).unwrap() {
+            let entry = entry.unwrap();
+            output.push_str(&format!("{}\n", entry.file_name().to_string_lossy()));
         }
+
+        output
     }
 
     fn name(&self) -> &str {
@@ -42,7 +39,19 @@ impl Command for LsCommand {
 pub struct CdCommand;
 impl Command for CdCommand {
     fn execute(&self, input: &str) -> String {
-        ("Command is still in development").to_string()
+        let args: Vec<&str> = input.split_whitespace().collect();
+        if args.len() > 1 {
+            return format!("Error: too many arguments");
+        }
+
+        let new_cwd: &str = args[0];
+        match std::env::set_current_dir(new_cwd) {
+            Ok(_) => {
+                GLOBAL_PATH.write().unwrap().cwd = new_cwd.to_string();
+                "".to_string()
+            }
+            Err(e) => format!("Error: {}", e),
+        }
     }
 
     fn name(&self) -> &str {
