@@ -4,6 +4,7 @@ mod path;
 
 use std::io::Write;
 use crate::traits::Command;
+use std::fs;
 // use crate::commands::system::*;
 // use crate::commands::utility::*;
 
@@ -24,7 +25,8 @@ fn main() {
 
     while input.trim() != "exit" {
         input.clear();
-        print!("{} $ ", &path::GLOBAL_PATH.read().unwrap().cwd);
+        let cwd: std::path::PathBuf = std::env::current_dir().unwrap();
+        print!("{} $ ", cwd.display());
         std::io::stdout().flush().unwrap();
         std::io::stdin().read_line(&mut input).unwrap();
         let args: Vec<&str> = input.trim().split_whitespace().collect();
