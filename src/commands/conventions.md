@@ -20,8 +20,7 @@ This MD file lists the conventions that all commands **must** follow.
 
 * Single-character flags should be prefixed with a single hyphen (`-`).
 * Example: `-a`, `-l`
-* Multi-character flags should be prefixed with a double hyphen (`--`).
-* Example: `--all`, `--long`
+* There should be no multi-character flags.
 
 ## Argument Conventions
 

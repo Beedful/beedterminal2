@@ -4,7 +4,7 @@ use crate::traits::Command;
 use std::fs;
 
 pub fn commands() -> Vec<Box<dyn Command>> {
-    vec![Box::new(LsCommand), Box::new(CdCommand)]
+    vec![Box::new(LsCommand), Box::new(CdCommand), Box::new(GetcwdCommand)]
 }
 
 pub struct LsCommand;
@@ -56,5 +56,22 @@ impl Command for CdCommand {
 
     fn name(&self) -> &str {
         "cd"
+    }
+}
+
+pub struct GetcwdCommand;
+impl Command for GetcwdCommand {
+    fn execute(&self, input: &str) -> String {
+        let args: Vec<&str> = input.split_whitespace().collect();
+        if args.len() > 1 {
+            return format!("Error: too many arguments");
+        }
+
+        let cwd: std::path::PathBuf = std::env::current_dir().unwrap();
+        cwd.to_string_lossy().to_string()
+    }    
+
+    fn name(&self) -> &str {
+        "cwd"
     }
 }

@@ -12,3 +12,12 @@ cargo run
 ```
 
 After some compilation, the terminal should run. Try using the `ls` command!
+
+## Command List
+| Command | Use | Format | Type |
+| --- | --- | --- | --- |
+| `help` | Get help. | `help` | Utlility |
+| `ls` | List directory contents. | `ls` | System |
+| `cd` | Change working directory. | `cd <directory>` | System |
+| `clear` | Clear terminal. | `clear` | Utility |
+| `cwd` | Get working directory. | `cwd` | System |
