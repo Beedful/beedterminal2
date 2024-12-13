@@ -1,5 +1,5 @@
-use crate::path::{self, GLOBAL_PATH};
-use crate::traits::{Command, Path};
+use crate::path::GLOBAL_PATH;
+use crate::traits::Command;
 // use std::borrow::Borrow;
 use std::fs;
 
