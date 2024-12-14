@@ -22,6 +22,7 @@ After some compilation, the terminal should run. Try using the `ls` command!
 | `clear` | Clear terminal. | `clear` | Utility |
 | `cwd` | Get working directory. | `cwd` | System |
 | `mkdir` | Make a new directory/folder. | `mkdir <directory name>` |
+| `touch` | Make a new file. | `touch <filename>` |
 
 ## How it works
 This section describes how the command system works. First, let's explore the structure.
