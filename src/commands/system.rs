@@ -4,7 +4,7 @@ use crate::traits::Command;
 use std::fs;
 
 pub fn commands() -> Vec<Box<dyn Command>> {
-    vec![Box::new(LsCommand), Box::new(CdCommand), Box::new(GetcwdCommand), Box::new(MkdirCommand)]
+    vec![Box::new(LsCommand), Box::new(CdCommand), Box::new(GetcwdCommand), Box::new(MkdirCommand), Box::new(TouchCommand)]
 }
 
 pub struct LsCommand;
@@ -91,5 +91,25 @@ impl Command for MkdirCommand {
 
     fn name(&self) -> &str {
         "mkdir"
+    }
+}
+
+pub struct TouchCommand;
+impl Command for TouchCommand {
+    fn execute(&self, input: &str) -> String {
+        let args: Vec<&str> = input.split_whitespace().collect();
+        if args.len() > 1 {
+            return format!("Error: too many arguments");
+        }
+        
+        match fs::File::create(input) {
+            Ok(_) => format!("File {} created", input),
+            Err(e) => format!("Error: {}", e),
+        }
+
+    }
+
+    fn name(&self) -> &str {
+        "touch"
     }
 }
