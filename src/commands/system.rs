@@ -4,7 +4,7 @@ use crate::traits::Command;
 use std::fs;
 
 pub fn commands() -> Vec<Box<dyn Command>> {
-    vec![Box::new(LsCommand), Box::new(CdCommand), Box::new(GetcwdCommand)]
+    vec![Box::new(LsCommand), Box::new(CdCommand), Box::new(GetcwdCommand), Box::new(MkdirCommand)]
 }
 
 pub struct LsCommand;
@@ -73,5 +73,23 @@ impl Command for GetcwdCommand {
 
     fn name(&self) -> &str {
         "cwd"
+    }
+}
+pub struct MkdirCommand;
+impl Command for MkdirCommand {
+    fn execute(&self, input: &str) -> String {
+        let args: Vec<&str> = input.split_whitespace().collect();
+        if args.len() > 1 {
+            return format!("Error: too many arguments");
+        }
+        let dir_path: &str = args[0];
+        match fs::create_dir(dir_path) {
+            Ok(_) => format!("Directory {} created", dir_path),
+            Err(e) => format!("Error: {}", e),
+        }
+    }    
+
+    fn name(&self) -> &str {
+        "mkdir"
     }
 }

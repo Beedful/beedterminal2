@@ -39,7 +39,7 @@ fn main() {
 
         for cmd in &commands {
             if cmd.name() == *cmd_name {
-                let output = cmd.execute(&args[1..].join(" "));
+                let output: String = cmd.execute(&args[1..].join(" "));
                 if output == "" {
                     print!("");
                     break;
