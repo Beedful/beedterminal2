@@ -21,9 +21,9 @@ After some compilation, the terminal should run. Try using the `ls` command!
 | `cd` | Change working directory. | `cd <directory>` | System |
 | `clear` | Clear terminal. | `clear` | Utility |
 | `cwd` | Get working directory. | `cwd` | System |
-| `mkdir` | Make a new directory/folder. | `mkdir <directory name>` |
-| `touch` | Make a new file. | `touch <filename>` |
-| `cat` | Read a file's contents. | `cat <filename>` |
+| `mkdir` | Make a new directory/folder. | `mkdir <directory name>` | System |
+| `touch` | Make a new file. | `touch <filename>` | System |
+| `cat` | Read a file's contents. | `cat <filename>` | System |
 
 ## How it works
 This section describes how the command system works. First, let's explore the structure.
