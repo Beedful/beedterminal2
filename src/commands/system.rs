@@ -22,11 +22,6 @@ impl Command for LsCommand {
             return format!("Error: too many arguments");
         }
 
-        // let dir: &str = match args.get(0) {
-        //     Some(arg) => arg,
-        //     None => &path::GLOBAL_PATH.read().unwrap().cwd as &str,
-        // };
-
         let cwd: std::path::PathBuf = std::env::current_dir().unwrap();
 
         let mut output: String = String::new();
