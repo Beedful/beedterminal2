@@ -10,13 +10,30 @@ use crate::traits::Command;
 
 fn main() {
     let mut commands: Vec<Box<dyn Command>> = vec![];
+    let mut command_groups: Vec<traits::CommandGroup> = vec![];
+    let mut cmd_groups_foradding: Vec<traits::CommandGroup> = vec![];
+    let beed_group: traits::CommandGroup = commands::beed::init_group();
+    let beed_group_foradding: traits::CommandGroup = commands::beed::init_group();
+    let term_group: traits::CommandGroup = commands::term::init_group();
+    let term_group_foradding: traits::CommandGroup = commands::term::init_group();
+
+    command_groups.push(beed_group);
+    command_groups.push(term_group);
+    cmd_groups_foradding.push(beed_group_foradding);
+    cmd_groups_foradding.push(term_group_foradding);
 
     for command in commands::system::commands() {
         commands.push(command);
     }
 
     for command in commands::utility::commands() {
-        commands.push(command);
+        commands.push(command); 
+    }
+
+    for cmd_group in cmd_groups_foradding {
+        for cmd in cmd_group.commands {
+            commands.push(cmd);
+        }
     }
 
     println!("Welcome to BeedTerminal 2");
@@ -37,8 +54,32 @@ fn main() {
             break;
         }
 
-        for cmd in &commands {
+        'cmd_loop: for cmd in &commands {
+            for cmd_group in &command_groups {
+                if cmd_group.commands.iter().any(|c| c.name() == *cmd_name) {
+                    break 'cmd_loop;
+                }
+            }
+
+            if let Some(group) = command_groups.iter().find(|group| group.name() == args[0]) {
+                if args.len() > 1 {
+                    let sub_command = args[1];
+                    if let Some(command) = group.commands.iter().find(|c| c.name() == sub_command) {
+                        let output: String = command.execute(&args[2..].join(" "));
+                        if output == "" {
+                            print!("");
+                            break;
+                        }
+                        println!("{}", output);
+                        break;
+                    }
+                } else {
+                    println!("Please specify a sub-command");
+                }
+            }
+
             if cmd.name() == *cmd_name {
+                // check if its a subcommand of a command group
                 let output: String = cmd.execute(&args[1..].join(" "));
                 if output == "" {
                     print!("");

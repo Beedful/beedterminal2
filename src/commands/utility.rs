@@ -2,7 +2,10 @@
 use crate::traits::Command;
 
 pub fn commands() -> Vec<Box<dyn Command>> {
-    vec![Box::new(HelpCommand), Box::new(ClearCommand)]
+    vec![
+        Box::new(HelpCommand),
+        Box::new(ClearCommand)
+    ]
 }
 
 pub struct HelpCommand;
