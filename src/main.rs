@@ -64,18 +64,18 @@ fn main() {
 
             if let Some(group) = command_groups.iter().find(|group| group.name() == args[0]) {
                 if args.len() > 1 {
-                    let sub_command = args[1];
+                    let sub_command: &str = args[1];
                     if let Some(command) = group.commands.iter().find(|c| c.name() == sub_command) {
-			let time_start = Instant::now(); 
-			let output: String = command.execute(&args[2..].join(" "));
+			                let time_start: Instant = Instant::now(); 
+			                let output: String = command.execute(&args[2..].join(" "));
                         if output == "" {
-				println!("{:.2?}", time_start.elapsed().as_micros());
+				            println!("{:.2?}", time_start.elapsed().as_micros());
                             print!("");
                             break;
                         }
                         println!("{}", output);
-			let time_end: u128 = time_start.elapsed().as_micros();
-			println!("{:.2?}", time_end);
+			            let time_end: u128 = time_start.elapsed().as_micros();
+			            println!("{:.2?}", time_end);
                         break;
                     }
                 } else {
@@ -85,7 +85,7 @@ fn main() {
 
             if cmd.name() == *cmd_name {
                 // check if its a subcommand of a command group
-		let time_start_out = Instant::now();
+		        let time_start_out: Instant = Instant::now();
                 let output: String = cmd.execute(&args[1..].join(" "));
                 if output == "" {
 			println!("{:.2}", time_start_out.elapsed().as_micros());
@@ -93,8 +93,8 @@ fn main() {
                     break;
                 }
                 println!("{}", output);
-		let time_end_out: u128 = time_start_out.elapsed().as_micros();
-		println!("{:.2?}", time_end_out);
+		        let time_end_out: u128 = time_start_out.elapsed().as_micros();
+		        println!("{:.2?}", time_end_out);
                 break;
             }
         }
