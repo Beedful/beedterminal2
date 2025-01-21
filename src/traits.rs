@@ -5,15 +5,6 @@ pub trait Command {
     fn name(&self) -> &str;
 }
 
-pub trait Path {
-    fn get_cwd(&self) -> String;
-    fn set_cwd(&mut self, new_cwd: String);
-}
-
-pub struct GlobalPath {
-    pub cwd: String,
-}
-
 pub struct CommandGroup {
     pub name: String,
     pub commands: Vec<Box<dyn Command>>

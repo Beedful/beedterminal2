@@ -1,4 +1,3 @@
-use crate::path::GLOBAL_PATH;
 use crate::traits::Command;
 // use std::borrow::Borrow;
 use std::fs;
@@ -49,7 +48,6 @@ impl Command for CdCommand {
         let new_cwd: &str = args[0];
         match std::env::set_current_dir(new_cwd) {
             Ok(_) => {
-                GLOBAL_PATH.write().unwrap().cwd = new_cwd.to_string();
                 "".to_string()
             }
             Err(e) => format!("Error: {}", e),

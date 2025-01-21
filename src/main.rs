@@ -1,6 +1,5 @@
 mod traits;
 mod commands;
-mod path;
 
 use std::io::Write;
 use crate::traits::Command;
