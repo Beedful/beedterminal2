@@ -25,6 +25,19 @@ After some compilation, the terminal should run. Try using the `ls` command!
 | `touch` | Make a new file. | `touch <filename>` | System |
 | `cat` | Read a file's contents. | `cat <filename>` | System |
 
+## Reasons
+These are the reasons I created this terminal from scratch.
+1. **Good Learning**: This terminal is built in Rust, and I can learn a lot of Rust from this terminal.
+2. **Exploring Systems Programming**: By writing a terminal, I can learn to access the filesystem and explore systems programming, starting from the filesystem.
+
+## Why you should use it (once its fully stable)
+You should use this once its fully stable. Reasons:
+
+1. **Blazingly Fast**: This terminal is written in Rust. It uses the standard Rust library, resulting in extremely fast operations.
+2. **Simple**: This terminal eliminates the complexity and messiness of typical terminals.
+3. **Open Source**: Who doesn't love open source?
+4. **Minimal**: This terminal doesn't support cool but useless features like other terminals. It is designed to give a minimal experience to the user.
+
 ## How it works
 This section describes how the command system works. First, let's explore the structure.
 1. `main.rs`: This handles the command output and displaying the input (`~ $`).
