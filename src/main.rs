@@ -9,8 +9,9 @@ use std::time::Instant;
 // use crate::commands::utility::*;
 
 fn main() {
-    let mut commands: Vec<Box<dyn Command>> = vec![];
-    let mut command_groups: Vec<traits::CommandGroup> = vec![];
+    // define variables
+    let mut commands: Vec<Box<dyn Command>> = vec![]; // commands list
+    let mut command_groups: Vec<traits::CommandGroup> = vec![]; // commands group list
     let mut cmd_groups_foradding: Vec<traits::CommandGroup> = vec![];
     let beed_group: traits::CommandGroup = commands::beed::init_group();
     let beed_group_foradding: traits::CommandGroup = commands::beed::init_group();
@@ -22,14 +23,17 @@ fn main() {
     cmd_groups_foradding.push(beed_group_foradding);
     cmd_groups_foradding.push(term_group_foradding);
 
+    // add system module commmands
     for command in commands::system::commands() {
         commands.push(command);
     }
 
+    // add utility module commands
     for command in commands::utility::commands() {
         commands.push(command); 
     }
 
+    // add command groups' commands
     for cmd_group in cmd_groups_foradding {
         for cmd in cmd_group.commands {
             commands.push(cmd);
@@ -65,8 +69,8 @@ fn main() {
                 if args.len() > 1 {
                     let sub_command: &str = args[1];
                     if let Some(command) = group.commands.iter().find(|c| c.name() == sub_command) {
-			                let time_start: Instant = Instant::now(); 
-			                let output: String = command.execute(&args[2..].join(" "));
+			            let time_start: Instant = Instant::now(); 
+			            let output: String = command.execute(&args[2..].join(" "));
                         if output == "" {
 				            println!("{:.2?}", time_start.elapsed().as_micros());
                             print!("");
@@ -87,7 +91,7 @@ fn main() {
 		        let time_start_out: Instant = Instant::now();
                 let output: String = cmd.execute(&args[1..].join(" "));
                 if output == "" {
-			println!("{:.2}", time_start_out.elapsed().as_micros());
+			        println!("{:.2}", time_start_out.elapsed().as_micros());
                     print!("");
                     break;
                 }
