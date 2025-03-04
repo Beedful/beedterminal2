@@ -11,17 +11,15 @@ use std::time::Instant;
 fn main() {
     // define variables
     let mut commands: Vec<Box<dyn Command>> = vec![]; // commands list
-    let mut command_groups: Vec<traits::CommandGroup> = vec![]; // commands group list
-    let mut cmd_groups_foradding: Vec<traits::CommandGroup> = vec![];
+    let mut command_groups: Vec<&traits::CommandGroup> = vec![]; // commands group list
+    let mut cmd_groups_foradding: Vec<&traits::CommandGroup> = vec![];
     let beed_group: traits::CommandGroup = commands::beed::init_group();
-    let beed_group_foradding: traits::CommandGroup = commands::beed::init_group();
     let term_group: traits::CommandGroup = commands::term::init_group();
-    let term_group_foradding: traits::CommandGroup = commands::term::init_group();
 
-    command_groups.push(beed_group);
-    command_groups.push(term_group);
-    cmd_groups_foradding.push(beed_group_foradding);
-    cmd_groups_foradding.push(term_group_foradding);
+    command_groups.push(&beed_group);
+    command_groups.push(&term_group);
+    cmd_groups_foradding.push(&beed_group);
+    cmd_groups_foradding.push(&term_group);
 
     // add system module commmands
     for command in commands::system::commands() {
@@ -35,25 +33,26 @@ fn main() {
 
     // add command groups' commands
     for cmd_group in cmd_groups_foradding {
-        for cmd in cmd_group.commands {
-            commands.push(cmd);
+        for cmd in &cmd_group.commands {
+            commands.push(Box::new((**cmd).clone())); // FIX: fix types problem
         }
     }
 
     println!("Welcome to BeedTerminal 2");
     println!("Type 'exit' to exit");
-    let mut input: String = String::new();
+    let mut input: String = String::new(); // input string
 
     while input.trim() != "exit" {
         input.clear();
-        let cwd: std::path::PathBuf = std::env::current_dir().unwrap();
-        print!("{} $ ", cwd.display());
-        std::io::stdout().flush().unwrap();
-        std::io::stdin().read_line(&mut input).unwrap();
-        let args: Vec<&str> = input.trim().split_whitespace().collect();
+        let cwd: std::path::PathBuf = std::env::current_dir().unwrap(); // get cwd to print
+        print!("{} $ ", cwd.display()); // print command prompt
+        std::io::stdout().flush().unwrap(); // flush stdout
+        std::io::stdin().read_line(&mut input).unwrap(); // read input
+        let args: Vec<&str> = input.trim().split_whitespace().collect(); // take arguments
 
         let cmd_name: &&str = args.get(0).unwrap_or(&"");
 
+        // take exit command
         if input.trim() == "exit" {
             break;
         }
